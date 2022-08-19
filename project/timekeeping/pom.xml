@@ -116,6 +116,11 @@
 			<artifactId>jackson-dataformat-xml</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.doxia</groupId>
+			<artifactId>doxia-site-renderer</artifactId>
+			<version>1.9.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -128,6 +133,17 @@
 					<source>11</source>
 					<target>11</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.10.0</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>3.2.1</version>
 			</plugin>
 		</plugins>
 	</build>
