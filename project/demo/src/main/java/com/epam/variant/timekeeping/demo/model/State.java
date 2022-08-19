@@ -1,7 +1,5 @@
 package com.epam.variant.timekeeping.demo.model;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -14,11 +12,14 @@ public class State {
     private Long id;
 
     @Column(name="name")
-    @NotNull()
+
     private String name;
 
     @Column(name = "description")
     private String description;
+
+    public State() {
+    }
 
     public State(Long id, String name, String description) {
         this.id = id;

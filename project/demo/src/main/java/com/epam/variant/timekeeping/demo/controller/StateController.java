@@ -19,10 +19,6 @@ public class StateController {
     public Iterable findAll(){
         return stateRepository.findAll();
     }
-    @GetMapping("/{name}")
-    public Iterable findByName(@PathVariable String name){
-        return stateRepository.findByName(name);
-    }
     @GetMapping("/{id}")
     public State  findOne(@PathVariable Long id) {
         return stateRepository.findById(id).orElse(null);
@@ -40,7 +36,7 @@ public class StateController {
             stateRepository.findById(id).orElseThrow(Exception::new);
             stateRepository.deleteById(id);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
     }
