@@ -1,3 +1,4 @@
 com\epam\spring\framework\variant\timekeeping\repository\StateRepository.class
 com\epam\spring\framework\variant\timekeeping\domain\State.class
 com\epam\spring\framework\variant\timekeeping\controller\StateController.class
+com\epam\spring\framework\variant\timekeeping\service\StateService.class

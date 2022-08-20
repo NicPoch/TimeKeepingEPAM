@@ -1,31 +1,33 @@
 package com.epam.spring.framework.variant.timekeeping.domain;
 
+import org.hibernate.tuple.GeneratedValueGeneration;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name="States")
-public class State {
+public class State{
     @Id
-    @GeneratedValue
-    @Column(name = "id")
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-    @Column(unique = true,nullable = false,name = "name")
+    @Column(name = "name")
     private String name;
 
-    @Column(nullable = true,unique = false,name = "description")
+    @Column(name = "description")
     private String decription;
 
     public State() {
+        super();
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
