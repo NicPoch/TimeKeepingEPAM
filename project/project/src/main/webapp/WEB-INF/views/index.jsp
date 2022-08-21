@@ -15,7 +15,10 @@
             </div>
             <div class="page-header">
                 <h1>API</h1>
-                <a href="states">Current States</a>
+                <ul>
+                    <li><a href="api/states">Current States</a></li>
+                    <li><a href="api/categories">Current categories</a></li>
+                </ul>
             </div>
         </div>
     </body>
