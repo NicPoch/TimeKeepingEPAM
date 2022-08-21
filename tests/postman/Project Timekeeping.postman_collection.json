@@ -1,0 +1,705 @@
+{
+	"info": {
+		"_postman_id": "1c08d033-859f-4b07-a9ad-949c13a99cf4",
+		"name": "Project Timekeeping",
+		"description": "# API Timekeeping Testing\n## Basic CRUD operations\n### 1. State\n### 2. Category\n### 3. User\n### 4. Administrator\n### 5. Client",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Basic CRUD",
+			"item": [
+				{
+					"name": "State",
+					"item": [
+						{
+							"name": "GET all States",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.status==200;\r",
+											"});\r",
+											"pm.test(\"Non empty response\",()=>{\r",
+											"    pm.response.toJSON.length>0;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/project/api/states",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"project",
+										"api",
+										"states"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET State by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.status==200;\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.response.toJSON=={\r",
+											"    \"id\": 2,\r",
+											"    \"name\": \"Mauv\",\r",
+											"    \"decription\": null\r",
+											"};\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/project/api/states/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"project",
+										"api",
+										"states",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST State",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.status==200;\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.response.toJSON=={\r",
+											"    \"id\":28,\r",
+											"    \"name\": \"New State\",\r",
+											"    \"decription\": \"New Random Description\"\r",
+											"}\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":28,\r\n    \"name\": \"New State\",\r\n    \"decription\": \"New Random Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/project/api/states",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"project",
+										"api",
+										"states"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update State",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.status==200;\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.response.toJSON=={\r",
+											"    \"id\":28,\r",
+											"    \"name\": \"New State Updated\",\r",
+											"    \"decription\": \"New Random Description Updated\"\r",
+											"}\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":28,\r\n    \"name\": \"New State Updated\",\r\n    \"decription\": \"New Random Description Updated\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/project/api/states/28",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"project",
+										"api",
+										"states",
+										"28"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete State",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.status==200;\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.response.toJSON=={\r",
+											"    \"id\":28,\r",
+											"    \"name\": \"New State Updated\",\r",
+											"    \"decription\": \"New Random Description Updated\"\r",
+											"}\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/project/api/states/28",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"project",
+										"api",
+										"states",
+										"28"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Category",
+					"item": [
+						{
+							"name": "GET all Categories",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.status==200;\r",
+											"});\r",
+											"pm.test(\"Non empty response\",()=>{\r",
+											"    pm.response.toJSON.length>0;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/project/api/categories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"project",
+										"api",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Categories by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.status==200;\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.response.toJSON=={\r",
+											"    \"id\": 2,\r",
+											"    \"name\": \"Mauv\",\r",
+											"    \"decription\": null\r",
+											"};\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/project/api/categories/14",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"project",
+										"api",
+										"categories",
+										"14"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Categories",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.status==200;\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.response.toJSON=={\r",
+											"    \"id\":39,\r",
+											"    \"name\": \"Analytics\",\r",
+											"    \"decription\": \"New Random Description\"\r",
+											"};\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":39,\r\n    \"name\": \"Analytics\",\r\n    \"decription\": \"New Random Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/project/api/categories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"project",
+										"api",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Category",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.status==200;\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.response.toJSON=={\r",
+											"    \"id\":39,\r",
+											"    \"name\": \"Analytics 2.0\",\r",
+											"    \"decription\": \"New Random Description 2.0\"\r",
+											"};\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":39,\r\n    \"name\": \"Analytics 2.0\",\r\n    \"decription\": \"New Random Description 2.0\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/project/api/states/39",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"project",
+										"api",
+										"states",
+										"39"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Category",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.status==200;\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.response.toJSON=={\r",
+											"    \"id\":39,\r",
+											"    \"name\": \"Analytics 2.0\",\r",
+											"    \"decription\": \"New Random Description 2.0\"\r",
+											"};\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/project/api/states/39",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"project",
+										"api",
+										"states",
+										"39"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "POST User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.status==200;\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.response.toJSON=={\r",
+											"    \"id\":1,\r",
+											"    \"name\": \"Pepe\",\r",
+											"    \"username\":\"elPepe\",\r",
+											"    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r",
+											"    \"mail\":\"example@example.com\"\r",
+											"};\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"Pepe\",\r\n    \"username\":\"elPepe\",\r\n    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r\n    \"mail\":\"example@example.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/project/api/categories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"project",
+										"api",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET all Users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.status==200;\r",
+											"});\r",
+											"pm.test(\"Non empty response\",()=>{\r",
+											"    pm.response.toJSON.length==1;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/project/api/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"project",
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Userby Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.status==200;\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.response.toJSON=={\r",
+											"    \"id\":1,\r",
+											"    \"name\": \"Pepe\",\r",
+											"    \"username\":\"elPepe\",\r",
+											"    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r",
+											"    \"mail\":\"example@example.com\"\r",
+											"};\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/project/api/categories/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"project",
+										"api",
+										"categories",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.status==200;\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.response.toJSON=={\r",
+											"    \"id\":1,\r",
+											"    \"name\": \"Pepe- Grillo\",\r",
+											"    \"username\":\"elPepe2.0\",\r",
+											"    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r",
+											"    \"mail\":\"example@example.com\"\r",
+											"};\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"Pepe- Grillo\",\r\n    \"username\":\"elPepe2.0\",\r\n    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r\n    \"mail\":\"example@example.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/project/api/states/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"project",
+										"api",
+										"states",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.status==200;\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.response.toJSON=={\r",
+											"    \"id\":1,\r",
+											"    \"name\": \"Pepe- Grillo\",\r",
+											"    \"username\":\"elPepe2.0\",\r",
+											"    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r",
+											"    \"mail\":\"example@example.com\"\r",
+											"};\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/project/api/states/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"project",
+										"api",
+										"states",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "# Basic CRUD\nthe basic crud operations to test the correct functionality of the api"
+		}
+	]
+}
