@@ -32,3 +32,18 @@ CREATE TABLE Clients(
     company varchar(50) NOT NULL,
     FOREIGN KEY (id) REFERENCES Users(id)
 );
+CREATE TABLE Activities(
+    id int AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    startDate DATE NOT NULL,
+    endDate DATE NOT NULL,
+    missingHours FLOAT NOT NULL,
+    completedHours FLOAT NOT NULL,
+    description VARCHAR(200) NOT NULL,
+    assignee_id int not null,
+    category_id int not null,
+    state_id int not null,
+    FOREIGN KEY (assignee_id) REFERENCES Clients(id),
+    FOREIGN KEY (category_id) REFERENCES Categories(id),
+    FOREIGN KEY (state_id) REFERENCES States(id)
+);
