@@ -20,6 +20,7 @@
                     <li><a href="api/categories">Current categories</a></li>
                     <li><a href="api/users">Current users</a></li>
                     <li><a href="api/administrators">Current Administrators</a></li>
+                    <li><a href="api/clients">Current Clients</a></li>
                 </ul>
             </div>
         </div>
