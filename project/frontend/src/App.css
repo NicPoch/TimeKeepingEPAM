@@ -1,0 +1,31 @@
+.App {
+  background-color: #00b9e6;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1443' height='600' preserveAspectRatio='none' viewBox='0 0 1443 600'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1082%26quot%3b)' fill='none'%3e%3crect width='1443' height='600' x='0' y='0' fill='rgba(30%2c 177%2c 199%2c 1)'%3e%3c/rect%3e%3cpath d='M0%2c467.648C92.251%2c446.814%2c192.224%2c473.61%2c275.157%2c428.152C360.945%2c381.129%2c406.169%2c290.4%2c465.407%2c212.544C542.392%2c111.363%2c668.077%2c29.951%2c674.737%2c-97.013C681.486%2c-225.68%2c601.681%2c-354.446%2c499.247%2c-432.6C402.187%2c-506.654%2c267.472%2c-481.542%2c146.766%2c-499.839C44.285%2c-515.373%2c-53.463%2c-545.734%2c-156.195%2c-531.952C-272.145%2c-516.397%2c-398.455%2c-499.826%2c-479.835%2c-415.78C-562.353%2c-330.558%2c-575.601%2c-202.559%2c-589.238%2c-84.72C-602.566%2c30.449%2c-594.26%2c144.635%2c-557.413%2c254.562C-517.332%2c374.136%2c-486.39%2c528.507%2c-368.591%2c573.539C-246.717%2c620.129%2c-127.271%2c496.391%2c0%2c467.648' fill='%231ca3b7'%3e%3c/path%3e%3cpath d='M1443 1079.877C1541.51 1108.999 1653.136 1115.9969999999998 1744.754 1069.539 1839.316 1021.588 1925.221 932.248 1940.916 827.391 1956.309 724.554 1860.056 642.572 1823.218 545.333 1796.077 473.69 1793 396.722 1753.007 331.377 1707.2640000000001 256.636 1654.023 185.236 1577.121 143.226 1489.183 95.18700000000001 1381.082 36.95100000000002 1289.831 78.35299999999995 1196.852 120.53899999999999 1199.132 254.784 1143.1100000000001 340.144 1096.888 410.573 1001.521 451.419 990.201 534.897 978.889 618.321 1040.214 692.342 1085.749 763.1510000000001 1125.872 825.544 1182.091 870.4010000000001 1237.598 919.611 1303.923 978.413 1357.999 1054.748 1443 1079.877' fill='%2320bfd7'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1082'%3e%3crect width='1443' height='600' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
+  background-size: cover;
+  display: grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  grid-template-rows: 4rem auto;
+  height: 100vh;
+}
+
+.header{
+  background-color: white;
+  display: flex;
+  grid-column: 1/-1;
+  align-items: center;
+}
+
+.header__logoEpam{
+  margin-top: .3rem;
+  margin-left: .5rem;
+  margin-right: 1rem;
+  width: 5rem;
+}
+
+.header__title{
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: .3rem;
+  color: rgb(88, 88, 88);
+  letter-spacing: .1rem;
+}
