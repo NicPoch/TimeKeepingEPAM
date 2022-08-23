@@ -19,6 +19,7 @@
                     <li><a href="api/states">Current States</a></li>
                     <li><a href="api/categories">Current categories</a></li>
                     <li><a href="api/users">Current users</a></li>
+                    <li><a href="api/administrators">Current Administrators</a></li>
                 </ul>
             </div>
         </div>

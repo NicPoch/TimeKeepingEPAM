@@ -6,5 +6,9 @@
              version="1.0">
     <persistence-unit name="timekeeping">
         <description>My Persistence Unit</description>
+        <!--<class>com.epam.spring.framework.variant.timekeeping.domain.Category</class>
+        <class>com.epam.spring.framework.variant.timekeeping.domain.State</class>
+        <class>com.epam.spring.framework.variant.timekeeping.domain.User</class>
+        <class>com.epam.spring.framework.variant.timekeeping.domain.Administrator</class>-->
     </persistence-unit>
 </persistence>
