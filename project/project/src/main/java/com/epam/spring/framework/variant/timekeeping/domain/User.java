@@ -1,28 +1,40 @@
 package com.epam.spring.framework.variant.timekeeping.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
+
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "Users")
-public class User {
+public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,name = "name")
     private String name;
 
-    @Column(nullable = false,unique = false)
+    @Column(nullable = false,unique = true,name = "username")
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false,name = "password")
     private String password;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false,unique = true,name = "mail")
     private String mail;
 
     public User() {
         super();
+    }
+
+    public User(int id, String name, String username, String password, String mail) {
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.mail = mail;
     }
 
     public int getId() {
