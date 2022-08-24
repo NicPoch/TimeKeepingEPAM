@@ -6,9 +6,15 @@
              version="1.0">
     <persistence-unit name="timekeeping">
         <description>My Persistence Unit</description>
-        <!--<class>com.epam.spring.framework.variant.timekeeping.domain.Category</class>
+        <class>com.epam.spring.framework.variant.timekeeping.domain.Category</class>
         <class>com.epam.spring.framework.variant.timekeeping.domain.State</class>
         <class>com.epam.spring.framework.variant.timekeeping.domain.User</class>
-        <class>com.epam.spring.framework.variant.timekeeping.domain.Administrator</class>-->
+        <class>com.epam.spring.framework.variant.timekeeping.domain.Administrator</class>
+        <class>com.epam.spring.framework.variant.timekeeping.domain.Client</class>
+        <class>com.epam.spring.framework.variant.timekeeping.domain.Activity</class>
+
+        <properties>
+            <property name="hibernate.enable_lazy_load_no_trans" value="true"/>
+        </properties>
     </persistence-unit>
 </persistence>

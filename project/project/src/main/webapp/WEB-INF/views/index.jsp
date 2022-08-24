@@ -21,6 +21,7 @@
                     <li><a href="api/users">Current users</a></li>
                     <li><a href="api/administrators">Current Administrators</a></li>
                     <li><a href="api/clients">Current Clients</a></li>
+                    <li><a href="api/activities">Current Activities</a></li>
                 </ul>
             </div>
         </div>

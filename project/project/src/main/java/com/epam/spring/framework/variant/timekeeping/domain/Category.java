@@ -1,6 +1,8 @@
 package com.epam.spring.framework.variant.timekeeping.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="Categories")
@@ -15,15 +17,25 @@ public class Category {
     @Column(name = "description")
     private String description;
 
+    @OneToMany(orphanRemoval = true,cascade = CascadeType.ALL,mappedBy = "category",fetch = FetchType.EAGER)
+    private List<Activity> activities=new ArrayList<>();
+
     public Category() {
         super();
     }
 
-    public int getId() {
+    public Category(Integer id, String name, String description, List<Activity> activities) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.activities = activities;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -41,6 +53,14 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Activity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
     }
 
     @Override

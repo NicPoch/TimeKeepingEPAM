@@ -1,10 +1,8 @@
 package com.epam.spring.framework.variant.timekeeping.domain;
 
-import org.hibernate.tuple.GeneratedValueGeneration;
-import org.springframework.lang.NonNull;
-
 import javax.persistence.*;
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="States")
@@ -17,17 +15,27 @@ public class State{
     private String name;
 
     @Column(name = "description")
-    private String decription;
+    private String description;
+
+    @OneToMany(orphanRemoval = true,cascade = CascadeType.ALL,mappedBy = "state",fetch = FetchType.EAGER)
+    private List<Activity> activities=new ArrayList<>();
 
     public State() {
         super();
     }
 
-    public int getId() {
+    public State(Integer id, String name, String description, List<Activity> activities) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.activities = activities;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -40,11 +48,19 @@ public class State{
     }
 
     public String getDecription() {
-        return decription;
+        return description;
     }
 
-    public void setDecription(String decription) {
-        this.decription = decription;
+    public void setDecription(String description) {
+        this.description = description;
+    }
+
+    public List<Activity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
     }
 
     @Override
@@ -52,7 +68,7 @@ public class State{
         return "State{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", decription='" + decription + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }
