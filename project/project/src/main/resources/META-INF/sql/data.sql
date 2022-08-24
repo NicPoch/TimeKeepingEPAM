@@ -63,3 +63,17 @@ insert into Administrators (id, role) values (7, 'Construction Manager');
 insert into Administrators (id, role) values (8, 'Engineer');
 insert into Administrators (id, role) values (9, 'Supervisor');
 insert into Administrators (id, role) values (10, 'Architect');
+
+--Clients
+insert into Clients (id, company) values (11, 'Tagcat');
+insert into Clients (id, company) values (12, 'Skidoo');
+insert into Clients (id, company) values (13, 'Jamia');
+insert into Clients (id, company) values (14, 'Zoomlounge');
+insert into Clients (id, company) values (15, 'Youspan');
+insert into Clients (id, company) values (16, 'Feedfish');
+insert into Clients (id, company) values (17, 'Feedfish');
+insert into Clients (id, company) values (18, 'Zava');
+insert into Clients (id, company) values (19, 'Wikivu');
+insert into Clients (id, company) values (20, 'Thoughtsphere');
+
+--Activities

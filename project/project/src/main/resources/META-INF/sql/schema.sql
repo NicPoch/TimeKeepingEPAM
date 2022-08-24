@@ -27,3 +27,8 @@ CREATE TABLE Administrators(
     role varchar(50) NOT NULL,
     FOREIGN KEY (id) REFERENCES Users(id)
 );
+CREATE TABLE Clients(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    company varchar(50) NOT NULL,
+    FOREIGN KEY (id) REFERENCES Users(id)
+);
