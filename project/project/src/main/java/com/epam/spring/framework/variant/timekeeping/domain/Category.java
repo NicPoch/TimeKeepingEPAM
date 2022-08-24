@@ -1,6 +1,7 @@
 package com.epam.spring.framework.variant.timekeeping.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,8 +17,8 @@ public class Category {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(orphanRemoval = true,cascade = CascadeType.PERSIST,mappedBy = "category")
-    private List<Activity> activities;
+    @OneToMany(orphanRemoval = true,cascade = CascadeType.ALL,mappedBy = "category",fetch = FetchType.EAGER)
+    private List<Activity> activities=new ArrayList<>();
 
     public Category() {
         super();

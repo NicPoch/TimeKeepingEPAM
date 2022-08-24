@@ -77,3 +77,4 @@ insert into Clients (id, company) values (19, 'Wikivu');
 insert into Clients (id, company) values (20, 'Thoughtsphere');
 
 --Activities
+insert into Activities (id,name,startDate,endDate,missingHours,completedHours,description,assignee_id,category_id,state_id) values (1,'Example','2022-08-24','2022-09-24',10.0,0.0,'Example desc',11,14,2)

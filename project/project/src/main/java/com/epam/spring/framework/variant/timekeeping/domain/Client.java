@@ -1,6 +1,7 @@
 package com.epam.spring.framework.variant.timekeeping.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,8 +11,8 @@ public class Client extends User{
     @Column(name="company",unique = false,nullable = false)
     private String company;
 
-    @OneToMany(orphanRemoval = true,cascade = CascadeType.PERSIST,mappedBy = "assignee")
-    private List<Activity> activities;
+    @OneToMany(orphanRemoval = true,cascade = CascadeType.ALL,mappedBy = "assignee",fetch = FetchType.EAGER)
+    private List<Activity> activities = new ArrayList<>();
 
     public Client() {
         super();

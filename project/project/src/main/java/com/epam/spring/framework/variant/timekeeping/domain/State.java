@@ -1,6 +1,7 @@
 package com.epam.spring.framework.variant.timekeeping.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,19 +15,19 @@ public class State{
     private String name;
 
     @Column(name = "description")
-    private String decription;
+    private String description;
 
-    @OneToMany(orphanRemoval = true,cascade = CascadeType.PERSIST,mappedBy = "state")
-    private List<Activity> activities;
+    @OneToMany(orphanRemoval = true,cascade = CascadeType.ALL,mappedBy = "state",fetch = FetchType.EAGER)
+    private List<Activity> activities=new ArrayList<>();
 
     public State() {
         super();
     }
 
-    public State(Integer id, String name, String decription, List<Activity> activities) {
+    public State(Integer id, String name, String description, List<Activity> activities) {
         this.id = id;
         this.name = name;
-        this.decription = decription;
+        this.description = description;
         this.activities = activities;
     }
 
@@ -47,11 +48,11 @@ public class State{
     }
 
     public String getDecription() {
-        return decription;
+        return description;
     }
 
-    public void setDecription(String decription) {
-        this.decription = decription;
+    public void setDecription(String description) {
+        this.description = description;
     }
 
     public List<Activity> getActivities() {
@@ -67,7 +68,7 @@ public class State{
         return "State{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", decription='" + decription + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

@@ -27,21 +27,21 @@ public class Activity {
     private float completedHours;
 
     @Column(nullable = false)
-    private float description;
+    private String description;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
     private Client assignee;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
     private Category category;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
     private State state;
 
     public Activity() {
     }
 
-    public Activity(int id, String name, Date startDate, Date endDate, float missingHours, float completedHours, float description) {
+    public Activity(int id, String name, Date startDate, Date endDate, float missingHours, float completedHours, String description) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
@@ -67,19 +67,19 @@ public class Activity {
         this.name = name;
     }
 
-    public Date getStart() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStart(Date startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEnd() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEnd(Date endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -99,11 +99,35 @@ public class Activity {
         this.completedHours = completedHours;
     }
 
-    public float getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(float description) {
+    public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Client getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(Client assignee) {
+        this.assignee = assignee;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 }
