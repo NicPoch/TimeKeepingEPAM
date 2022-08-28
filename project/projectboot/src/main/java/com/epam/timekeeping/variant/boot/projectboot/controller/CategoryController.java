@@ -1,8 +1,13 @@
 package com.epam.timekeeping.variant.boot.projectboot.controller;
 
 import com.epam.timekeeping.variant.boot.projectboot.domain.Category;
+import com.epam.timekeeping.variant.boot.projectboot.dto.category.CategoryDetail;
+import com.epam.timekeeping.variant.boot.projectboot.dto.category.CategoryDto;
+import com.epam.timekeeping.variant.boot.projectboot.service.CategoryService;
 import com.epam.timekeeping.variant.boot.projectboot.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,32 +21,23 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    public List<Category> getCategory(){
-        return categoryService.getCategories();
+    public ResponseEntity<List<CategoryDto>> getCategories(){
+        return new ResponseEntity<>(categoryService.getCategories(), HttpStatus.OK);
     }
-
     @GetMapping(value = "/{id}")
-    public Category getCategory(@PathVariable int id){
-        return categoryService.getCategoryById(id);
+    public ResponseEntity<CategoryDetail> getCategories(@PathVariable int id){
+        return new ResponseEntity<>(categoryService.getCategoryById(id),HttpStatus.OK);
     }
-
     @PostMapping
-    public Category postCategories(@RequestBody Category category){
-        categoryService.saveOrUpdateCategory(category);
-        return category;
+    public ResponseEntity<CategoryDetail> postCategory(@RequestBody CategoryDto category){
+        return new ResponseEntity<>(categoryService.createCategory(category),HttpStatus.CREATED);
     }
-
     @PutMapping(value = "/{id}")
-    public Category updateCategory(@PathVariable int id,@RequestBody Category newCategory){
-        Category category = this.categoryService.getCategoryById(id);
-        if(category!=null) categoryService.saveOrUpdateCategory(newCategory);
-        return newCategory;
+    public ResponseEntity<CategoryDetail> updateCategory(@PathVariable int id,@RequestBody CategoryDto newCategory){
+        return new ResponseEntity<>(categoryService.updateCategory(newCategory,id),HttpStatus.ACCEPTED);
     }
-
     @DeleteMapping(value = "/{id}")
-    public Category deleteCategory(@PathVariable int id){
-        Category category = categoryService.getCategoryById(id);
-        if(category!=null) categoryService.deleteCategory(id);
-        return category;
+    public ResponseEntity<CategoryDetail> deleteCategory(@PathVariable int id){
+        return new ResponseEntity<>(categoryService.deleteCategory(id),HttpStatus.OK);
     }
 }

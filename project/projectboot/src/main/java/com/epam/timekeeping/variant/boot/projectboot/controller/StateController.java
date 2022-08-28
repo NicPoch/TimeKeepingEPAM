@@ -1,8 +1,11 @@
 package com.epam.timekeeping.variant.boot.projectboot.controller;
 
-import com.epam.timekeeping.variant.boot.projectboot.domain.State;
+import com.epam.timekeeping.variant.boot.projectboot.dto.state.StateDetail;
+import com.epam.timekeeping.variant.boot.projectboot.dto.state.StateDto;
 import com.epam.timekeeping.variant.boot.projectboot.service.StateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,28 +19,23 @@ public class StateController {
     private StateService stateService;
 
     @GetMapping
-    public List<State> getStates(){
-        return stateService.getStates();
+    public ResponseEntity<List<StateDto>> getStates(){
+        return new ResponseEntity<>(stateService.getStates(), HttpStatus.OK);
     }
     @GetMapping(value = "/{id}")
-    public State getStates(@PathVariable int id){
-        return stateService.getStateById(id);
+    public ResponseEntity<StateDetail> getStates(@PathVariable int id){
+        return new ResponseEntity<>(stateService.getStateById(id),HttpStatus.OK);
     }
     @PostMapping
-    public State getStates(@RequestBody State state){
-        stateService.saveOrUpdateState(state);
-        return state;
+    public ResponseEntity<StateDetail> postState(@RequestBody StateDto state){
+        return new ResponseEntity<>(stateService.createState(state),HttpStatus.CREATED);
     }
     @PutMapping(value = "/{id}")
-    public State updateState(@PathVariable int id,@RequestBody State newState){
-        State state =this.stateService.getStateById(id);
-        if(state!=null) stateService.saveOrUpdateState(newState);
-        return newState;
+    public ResponseEntity<StateDetail> updateState(@PathVariable int id,@RequestBody StateDto newState){
+        return new ResponseEntity<>(stateService.updateState(newState,id),HttpStatus.ACCEPTED);
     }
     @DeleteMapping(value = "/{id}")
-    public State deleteState(@PathVariable int id){
-        State state =this.stateService.getStateById(id);
-        if(state!=null) stateService.deleteState(id);
-        return state;
+    public ResponseEntity<StateDetail> deleteState(@PathVariable int id){
+        return new ResponseEntity<>(stateService.deleteState(id),HttpStatus.OK);
     }
 }

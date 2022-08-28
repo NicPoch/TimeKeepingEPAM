@@ -1,40 +1,31 @@
 package com.epam.timekeeping.variant.boot.projectboot.domain;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="Categories")
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false,updatable = false)
     private Integer id;
 
-    @Column(name = "name")
+    @Column(name = "name",nullable = false)
     private String name;
 
     @Column(name = "description")
     private String description;
 
-    @OneToMany(orphanRemoval = true,cascade = CascadeType.ALL,mappedBy = "category",fetch = FetchType.LAZY)
+    @OneToMany(orphanRemoval = true,mappedBy = "category")
     private Set<Activity> activities=new HashSet<>();
-
-    public Category(Integer id, String name, String description, Set<Activity> activities) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.activities = activities;
-    }
 
     @Override
     public String toString() {
