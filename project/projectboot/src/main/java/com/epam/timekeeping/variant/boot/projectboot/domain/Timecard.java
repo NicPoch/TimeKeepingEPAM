@@ -34,7 +34,7 @@ public class Timecard {
     private String comment;
 
     @Column(nullable = false)
-    private float hours;
+    private Float hours;
 
     @Column(nullable = false)
     private Date timestamp;

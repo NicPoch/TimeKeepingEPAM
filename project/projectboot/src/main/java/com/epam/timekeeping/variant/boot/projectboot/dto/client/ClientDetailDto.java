@@ -19,7 +19,6 @@ public class ClientDetailDto implements Serializable {
     private int id;
     private String name;
     private String username;
-    private String password;
     private String mail;
     private String company;
     private List<ActivityDto> activities;
@@ -32,7 +31,6 @@ public class ClientDetailDto implements Serializable {
         return Objects.equals(this.id, entity.id) &&
                 Objects.equals(this.name, entity.name) &&
                 Objects.equals(this.username, entity.username) &&
-                Objects.equals(this.password, entity.password) &&
                 Objects.equals(this.mail, entity.mail) &&
                 Objects.equals(this.company, entity.company) &&
                 Objects.equals(this.activities, entity.activities);
@@ -40,7 +38,7 @@ public class ClientDetailDto implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, username, password, mail, company, activities);
+        return Objects.hash(id, name, username, mail, company, activities);
     }
 
     @Override
@@ -49,7 +47,6 @@ public class ClientDetailDto implements Serializable {
                 "id = " + id + ", " +
                 "name = " + name + ", " +
                 "username = " + username + ", " +
-                "password = " + password + ", " +
                 "mail = " + mail + ", " +
                 "company = " + company + ", " +
                 "activities = " + activities + ")";
