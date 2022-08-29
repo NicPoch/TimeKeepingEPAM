@@ -64,7 +64,6 @@ public class ActivityService {
     }
 
     public ActivityDetailDto createActivity(ActivityPostDto activity)throws ActivityIncorrectFormat{
-        System.out.println(activity);
         List<String> errors = new ArrayList<>();
         if(activity.getId()==null) errors.add("Empty id");
         if(activity.getName()==null || activity.getName().trim().length()==0) errors.add("Empty name");

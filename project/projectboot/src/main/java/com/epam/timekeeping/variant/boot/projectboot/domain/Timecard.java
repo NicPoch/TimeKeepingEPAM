@@ -38,4 +38,15 @@ public class Timecard {
 
     @Column(nullable = false)
     private Date timestamp;
+
+    @Override
+    public String toString() {
+        return "Timecard{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", comment='" + comment + '\'' +
+                ", hours=" + hours +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }

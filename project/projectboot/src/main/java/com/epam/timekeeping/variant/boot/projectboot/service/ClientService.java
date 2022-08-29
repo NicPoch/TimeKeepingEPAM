@@ -25,9 +25,9 @@ public class ClientService {
     @Autowired
     ModelMapper mapper;
 
-    public ClientDto getClientById(Integer id) throws ClientNotFound
+    public ClientDetailDto getClientById(Integer id) throws ClientNotFound
     {
-        return  mapper.map(clientRepository.findById(id).orElseThrow(()->new CategoryNotFound(id)),ClientDto.class);
+        return  mapper.map(clientRepository.findById(id).orElseThrow(()->new CategoryNotFound(id)),ClientDetailDto.class);
     }
     public List<ClientDto> getClients(){
         List<ClientDto> clients = new ArrayList<>();
