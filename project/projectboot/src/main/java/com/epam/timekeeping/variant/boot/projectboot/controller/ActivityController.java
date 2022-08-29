@@ -1,47 +1,49 @@
 package com.epam.timekeeping.variant.boot.projectboot.controller;
 
-import com.epam.timekeeping.variant.boot.projectboot.domain.Activity;
+import com.epam.timekeeping.variant.boot.projectboot.dto.activity.ActivityPostDto;
 import com.epam.timekeeping.variant.boot.projectboot.service.ActivityService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 
 @RestController
 @RequestMapping("/api/activities")
 public class ActivityController {
 
+    Logger logger = LoggerFactory.getLogger(ActivityController.class);
     @Autowired
     private ActivityService activityService;
 
     @GetMapping
-    public List<Activity> getActivity(){
-        return activityService.getActivities();
+    public ResponseEntity<Object> getActivity(@RequestParam(required = false) String sort){
+        logger.info("get request for all activities with sort: "+sort);
+        return new ResponseEntity<>(activityService.getActivities(sort), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public Activity getActivity(@PathVariable int id){
-        return activityService.getActivityById(id);
+    public ResponseEntity<Object> getActivity(@PathVariable int id){
+        logger.info("get request for activity with id: "+id);
+        return new ResponseEntity<>(activityService.getActivityById(id),HttpStatus.OK);
     }
 
     @PostMapping
-    public Activity postActivities(@RequestBody Activity activity){
-        activityService.saveOrUpdateActivity(activity);
-        return activity;
+    public ResponseEntity<Object> postActivities(@RequestBody ActivityPostDto activity){
+        logger.info("post request for : "+activity.toString());
+        return new ResponseEntity<>(activityService.createActivity(activity),HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
-    public Activity updateActivity(@PathVariable int id,@RequestBody Activity newActivity){
-        Activity activity = this.activityService.getActivityById(id);
-        if(activity!=null) activityService.saveOrUpdateActivity(newActivity);
-        return newActivity;
+    public ResponseEntity<Object> updateActivity(@PathVariable Integer id,@RequestBody ActivityPostDto activity){
+        logger.info("put request with id "+id+" for : "+activity.toString());
+        return new ResponseEntity<>(activityService.updateActivity(id,activity),HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public Activity deleteActivity(@PathVariable int id){
-        Activity activity = activityService.getActivityById(id);
-        if(activity!=null) activityService.deleteActivity(id);
-        return activity;
+    public ResponseEntity<Object> deleteActivity(@PathVariable int id){
+        logger.info("delete request with id : "+id);
+        return new ResponseEntity<>(activityService.deleteActivity(id),HttpStatus.OK);
     }
 }

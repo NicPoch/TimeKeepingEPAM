@@ -1,25 +1,23 @@
 package com.epam.timekeeping.variant.boot.projectboot.domain;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Date;
 import java.util.Set;
 
-@Data
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "Activities")
 public class Activity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false,nullable = false)
     private Integer id;
 
     @Column(nullable = false)
@@ -37,32 +35,42 @@ public class Activity {
     @Column(nullable = false)
     private Float completedHours;
 
-    @Column(nullable = false)
+    @Column
     private String description;
 
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id", nullable = false)
     private Client assignee;
 
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "state_id", nullable = false)
     private State state;
 
-    @OneToMany(orphanRemoval = true,cascade = CascadeType.ALL,mappedBy = "activity",fetch = FetchType.EAGER)
+    @OneToMany(orphanRemoval = true,mappedBy = "activity")
     private Set<Timecard> timecards = new HashSet<>();
 
-    @OneToMany(orphanRemoval = true,cascade = CascadeType.ALL,mappedBy = "activity",fetch = FetchType.EAGER)
+    @OneToMany(orphanRemoval = true,mappedBy = "activity")
     private Set<Request> requests = new HashSet<>();
 
-
-    public Activity(Integer id, String name, Date startDate, Date endDate, Float missingHours, Float completedHours, String description) {
-        this.id = id;
-        this.name = name;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.missingHours = missingHours;
-        this.completedHours = completedHours;
-        this.description = description;
+    @Override
+    public String toString() {
+        return "Activity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", missingHours=" + missingHours +
+                ", completedHours=" + completedHours +
+                ", description='" + description + '\'' +
+                ", assignee=" + assignee +
+                ", category=" + category +
+                ", state=" + state +
+                ", timecards=" + timecards +
+                ", requests=" + requests +
+                '}';
     }
 }

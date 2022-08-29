@@ -20,10 +20,13 @@
 									"script": {
 										"exec": [
 											"pm.test(\"Correct status response\",()=>{\r",
-											"    pm.response.status==200;\r",
+											"    pm.response.to.have.status(200);\r",
 											"});\r",
 											"pm.test(\"Non empty response\",()=>{\r",
-											"    pm.response.toJSON.length>0;\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											"pm.test(\"Correct amount\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql([]);\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -34,14 +37,65 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/project/api/states",
+									"raw": "http://localhost:8081/api/states",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8081",
 									"path": [
-										"project",
+										"api",
+										"states"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST State",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\":1,\r",
+											"            \"name\": \"ҺoɩƋ ҺoɩƋ\",\r",
+											"            \"description\": \"New Random Description\",\r",
+											"            \"activities\":[]\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":28,\r\n    \"name\": \"ҺoɩƋ ҺoɩƋ\",\r\n    \"description\": \"New Random Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/states",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
 										"api",
 										"states"
 									]
@@ -57,14 +111,17 @@
 									"script": {
 										"exec": [
 											"pm.test(\"Correct status response\",()=>{\r",
-											"    pm.response.status==200;\r",
+											"    pm.response.to.have.status(200);\r",
 											"});\r",
 											"pm.test(\"Correct response\",()=>{\r",
-											"    pm.response.toJSON=={\r",
-											"    \"id\": 2,\r",
-											"    \"name\": \"Mauv\",\r",
-											"    \"decription\": null\r",
-											"};\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\":1,\r",
+											"            \"name\": \"ҺoɩƋ ҺoɩƋ\",\r",
+											"            \"description\": \"New Random Description\",\r",
+											"            \"activities\":[]\r",
+											"        }\r",
+											"    );\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -75,67 +132,16 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/project/api/states/2",
+									"raw": "http://localhost:8081/api/states/1",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8081",
 									"path": [
-										"project",
 										"api",
 										"states",
-										"2"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST State",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Correct status response\",()=>{\r",
-											"    pm.response.status==200;\r",
-											"});\r",
-											"pm.test(\"Correct response\",()=>{\r",
-											"    pm.response.toJSON=={\r",
-											"    \"id\":28,\r",
-											"    \"name\": \"New State\",\r",
-											"    \"decription\": \"New Random Description\"\r",
-											"}\r",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"id\":28,\r\n    \"name\": \"New State\",\r\n    \"decription\": \"New Random Description\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8080/project/api/states",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"project",
-										"api",
-										"states"
+										"1"
 									]
 								}
 							},
@@ -149,14 +155,15 @@
 									"script": {
 										"exec": [
 											"pm.test(\"Correct status response\",()=>{\r",
-											"    pm.response.status==200;\r",
+											"    pm.response.to.have.status(202);\r",
 											"});\r",
 											"pm.test(\"Correct response\",()=>{\r",
-											"    pm.response.toJSON=={\r",
-											"    \"id\":28,\r",
-											"    \"name\": \"New State Updated\",\r",
-											"    \"decription\": \"New Random Description Updated\"\r",
-											"}\r",
+											"    pm.expect(pm.response.json()).to.eql({\r",
+											"        \"id\":1,\r",
+											"        \"name\": \"New State Updated\",\r",
+											"        \"description\": \"New Random Description Updated\",\r",
+											"        \"activities\":[]\r",
+											"    });\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -168,7 +175,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\":28,\r\n    \"name\": \"New State Updated\",\r\n    \"decription\": \"New Random Description Updated\"\r\n}",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"New State Updated\",\r\n    \"description\": \"New Random Description Updated\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -176,17 +183,16 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/project/api/states/28",
+									"raw": "http://localhost:8081/api/states/1",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8081",
 									"path": [
-										"project",
 										"api",
 										"states",
-										"28"
+										"1"
 									]
 								}
 							},
@@ -200,14 +206,15 @@
 									"script": {
 										"exec": [
 											"pm.test(\"Correct status response\",()=>{\r",
-											"    pm.response.status==200;\r",
+											"    pm.response.to.have.status(200);\r",
 											"});\r",
 											"pm.test(\"Correct response\",()=>{\r",
-											"    pm.response.toJSON=={\r",
-											"    \"id\":28,\r",
-											"    \"name\": \"New State Updated\",\r",
-											"    \"decription\": \"New Random Description Updated\"\r",
-											"}\r",
+											"    pm.expect(pm.response.json()).to.eql({\r",
+											"        \"id\":1,\r",
+											"        \"name\": \"New State Updated\",\r",
+											"        \"description\": \"New Random Description Updated\",\r",
+											"        \"activities\":[]\r",
+											"    });\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -218,17 +225,16 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/project/api/states/28",
+									"raw": "http://localhost:8081/api/states/1",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8081",
 									"path": [
-										"project",
 										"api",
 										"states",
-										"28"
+										"1"
 									]
 								}
 							},
@@ -247,10 +253,10 @@
 									"script": {
 										"exec": [
 											"pm.test(\"Correct status response\",()=>{\r",
-											"    pm.response.status==200;\r",
+											"    pm.response.to.have.status(200);\r",
 											"});\r",
 											"pm.test(\"Non empty response\",()=>{\r",
-											"    pm.response.toJSON.length>0;\r",
+											"    pm.expect(pm.response.json()).to.eql([]);\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -261,14 +267,65 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/project/api/categories",
+									"raw": "http://localhost:8081/api/categories",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8081",
 									"path": [
-										"project",
+										"api",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Categories",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\":1,\r",
+											"            \"name\": \"Analytics\",\r",
+											"            \"description\": \"New Random Description\",\r",
+											"            \"activities\":[]\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"Analytics\",\r\n    \"description\": \"New Random Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/categories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
 										"api",
 										"categories"
 									]
@@ -284,14 +341,15 @@
 									"script": {
 										"exec": [
 											"pm.test(\"Correct status response\",()=>{\r",
-											"    pm.response.status==200;\r",
+											"    pm.response.to.have.status(200);\r",
 											"});\r",
 											"pm.test(\"Correct response\",()=>{\r",
-											"    pm.response.toJSON=={\r",
-											"    \"id\": 2,\r",
-											"    \"name\": \"Mauv\",\r",
-											"    \"decription\": null\r",
-											"};\r",
+											"    pm.expect(pm.response.json()).to.eql({\r",
+											"    \"id\": 1,\r",
+											"    \"name\": \"Analytics\",\r",
+											"    \"description\": \"New Random Description\",\r",
+											"    \"activities\": []\r",
+											"});\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -302,67 +360,16 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/project/api/categories/14",
+									"raw": "http://localhost:8081/api/categories/1",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8081",
 									"path": [
-										"project",
 										"api",
 										"categories",
-										"14"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST Categories",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Correct status response\",()=>{\r",
-											"    pm.response.status==200;\r",
-											"});\r",
-											"pm.test(\"Correct response\",()=>{\r",
-											"    pm.response.toJSON=={\r",
-											"    \"id\":39,\r",
-											"    \"name\": \"Analytics\",\r",
-											"    \"decription\": \"New Random Description\"\r",
-											"};\r",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"id\":39,\r\n    \"name\": \"Analytics\",\r\n    \"decription\": \"New Random Description\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8080/project/api/categories",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"project",
-										"api",
-										"categories"
+										"1"
 									]
 								}
 							},
@@ -376,14 +383,15 @@
 									"script": {
 										"exec": [
 											"pm.test(\"Correct status response\",()=>{\r",
-											"    pm.response.status==200;\r",
+											"    pm.response.to.have.status(202);\r",
 											"});\r",
 											"pm.test(\"Correct response\",()=>{\r",
-											"    pm.response.toJSON=={\r",
-											"    \"id\":39,\r",
+											"    pm.expect(pm.response.json()).to.eql({\r",
+											"    \"id\":1,\r",
 											"    \"name\": \"Analytics 2.0\",\r",
-											"    \"decription\": \"New Random Description 2.0\"\r",
-											"};\r",
+											"    \"description\": \"New Random Description 2.0\",\r",
+											"    \"activities\": []\r",
+											"});\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -395,7 +403,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\":39,\r\n    \"name\": \"Analytics 2.0\",\r\n    \"decription\": \"New Random Description 2.0\"\r\n}",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"Analytics 2.0\",\r\n    \"description\": \"New Random Description 2.0\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -403,17 +411,16 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/project/api/states/39",
+									"raw": "http://localhost:8081/api/categories/1",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8081",
 									"path": [
-										"project",
 										"api",
-										"states",
-										"39"
+										"categories",
+										"1"
 									]
 								}
 							},
@@ -427,14 +434,15 @@
 									"script": {
 										"exec": [
 											"pm.test(\"Correct status response\",()=>{\r",
-											"    pm.response.status==200;\r",
+											"    pm.response.to.have.status(200);\r",
 											"});\r",
 											"pm.test(\"Correct response\",()=>{\r",
-											"    pm.response.toJSON=={\r",
-											"    \"id\":39,\r",
+											"    pm.expect(pm.response.json()).to.eql({\r",
+											"    \"id\":1,\r",
 											"    \"name\": \"Analytics 2.0\",\r",
-											"    \"decription\": \"New Random Description 2.0\"\r",
-											"};\r",
+											"    \"description\": \"New Random Description 2.0\",\r",
+											"    \"activities\": []\r",
+											"});\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -445,17 +453,16 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/project/api/states/39",
+									"raw": "http://localhost:8081/api/categories/1",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8081",
 									"path": [
-										"project",
 										"api",
-										"states",
-										"39"
+										"categories",
+										"1"
 									]
 								}
 							},
@@ -474,16 +481,17 @@
 									"script": {
 										"exec": [
 											"pm.test(\"Correct status response\",()=>{\r",
-											"    pm.response.status==200;\r",
+											"    pm.response.to.have.status(202);\r",
 											"});\r",
 											"pm.test(\"Correct response\",()=>{\r",
-											"    pm.response.toJSON=={\r",
-											"    \"id\":1,\r",
-											"    \"name\": \"Pepe\",\r",
-											"    \"username\":\"elPepe\",\r",
-											"    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r",
-											"    \"mail\":\"example@example.com\"\r",
-											"};\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 1,\r",
+											"            \"name\": \"Pepe\",\r",
+											"            \"username\": \"elPepe\",\r",
+											"            \"mail\": \"example@example.com\"\r",
+											"        }\r",
+											"    );\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -495,7 +503,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"Pepe\",\r\n    \"username\":\"elPepe\",\r\n    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r\n    \"mail\":\"example@example.com\"\r\n}",
+									"raw": "{\r\n    \"id\":22,\r\n    \"name\": \"Pepe\",\r\n    \"username\":\"elPepe\",\r\n    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r\n    \"mail\":\"example@example.com\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -503,16 +511,15 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/project/api/categories",
+									"raw": "http://localhost:8081/api/users",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8081",
 									"path": [
-										"project",
 										"api",
-										"categories"
+										"users"
 									]
 								}
 							},
@@ -526,10 +533,19 @@
 									"script": {
 										"exec": [
 											"pm.test(\"Correct status response\",()=>{\r",
-											"    pm.response.status==200;\r",
+											"    pm.response.to.have.status(200);\r",
 											"});\r",
-											"pm.test(\"Non empty response\",()=>{\r",
-											"    pm.response.toJSON.length==1;\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        [\r",
+											"            {\r",
+											"                \"id\": 1,\r",
+											"                \"name\": \"Pepe\",\r",
+											"                \"username\": \"elPepe\",\r",
+											"                \"mail\": \"example@example.com\"\r",
+											"            }\r",
+											"        ]\r",
+											"    );\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -540,14 +556,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/project/api/users",
+									"raw": "http://localhost:8081/api/users",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8081",
 									"path": [
-										"project",
 										"api",
 										"users"
 									]
@@ -563,16 +578,17 @@
 									"script": {
 										"exec": [
 											"pm.test(\"Correct status response\",()=>{\r",
-											"    pm.response.status==200;\r",
+											"    pm.response.to.have.status(200);\r",
 											"});\r",
 											"pm.test(\"Correct response\",()=>{\r",
-											"    pm.response.toJSON=={\r",
-											"    \"id\":1,\r",
-											"    \"name\": \"Pepe\",\r",
-											"    \"username\":\"elPepe\",\r",
-											"    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r",
-											"    \"mail\":\"example@example.com\"\r",
-											"};\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 1,\r",
+											"            \"name\": \"Pepe\",\r",
+											"            \"username\": \"elPepe\",\r",
+											"            \"mail\": \"example@example.com\"\r",
+											"        }\r",
+											"    );\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -583,16 +599,15 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/project/api/categories/1",
+									"raw": "http://localhost:8081/api/users/1",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8081",
 									"path": [
-										"project",
 										"api",
-										"categories",
+										"users",
 										"1"
 									]
 								}
@@ -607,16 +622,17 @@
 									"script": {
 										"exec": [
 											"pm.test(\"Correct status response\",()=>{\r",
-											"    pm.response.status==200;\r",
+											"    pm.response.to.have.status(202);\r",
 											"});\r",
 											"pm.test(\"Correct response\",()=>{\r",
-											"    pm.response.toJSON=={\r",
-											"    \"id\":1,\r",
-											"    \"name\": \"Pepe- Grillo\",\r",
-											"    \"username\":\"elPepe2.0\",\r",
-											"    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r",
-											"    \"mail\":\"example@example.com\"\r",
-											"};\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 1,\r",
+											"            \"name\": \"Pepe- Grillo\",\r",
+											"            \"username\":\"elPepe2.0\",\r",
+											"            \"mail\": \"example@example.com\"\r",
+											"        }\r",
+											"    );\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -636,16 +652,15 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/project/api/states/1",
+									"raw": "http://localhost:8081/api/users/1",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8081",
 									"path": [
-										"project",
 										"api",
-										"states",
+										"users",
 										"1"
 									]
 								}
@@ -660,16 +675,17 @@
 									"script": {
 										"exec": [
 											"pm.test(\"Correct status response\",()=>{\r",
-											"    pm.response.status==200;\r",
+											"    pm.response.to.have.status(200);\r",
 											"});\r",
 											"pm.test(\"Correct response\",()=>{\r",
-											"    pm.response.toJSON=={\r",
-											"    \"id\":1,\r",
-											"    \"name\": \"Pepe- Grillo\",\r",
-											"    \"username\":\"elPepe2.0\",\r",
-											"    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r",
-											"    \"mail\":\"example@example.com\"\r",
-											"};\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 1,\r",
+											"            \"name\": \"Pepe- Grillo\",\r",
+											"            \"username\":\"elPepe2.0\",\r",
+											"            \"mail\": \"example@example.com\"\r",
+											"        }\r",
+											"    );\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -680,17 +696,2720 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/project/api/states/1",
+									"raw": "http://localhost:8081/api/users/1",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8081",
 									"path": [
-										"project",
+										"api",
+										"users",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Administrator",
+					"item": [
+						{
+							"name": "POST Admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 2,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\": \"doe\",\r",
+											"            \"mail\": \"example@doe.com\",\r",
+											"            \"role\": \"Head Security\"\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":2,\r\n    \"name\": \"John\",\r\n    \"username\":\"doe\",\r\n    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r\n    \"mail\":\"example@doe.com\",\r\n    \"role\":\"Head Security\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/administrators",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"administrators"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login Administrator",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 2,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\": \"doe\",\r",
+											"            \"mail\": \"example@doe.com\",\r",
+											"            \"role\": \"Head Security\"\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"doe\",\r\n    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/administrators/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"administrators",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET all Admins",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        [{\r",
+											"            \"id\": 2,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\": \"doe\",\r",
+											"            \"mail\": \"example@doe.com\",\r",
+											"            \"role\": \"Head Security\"\r",
+											"        }]\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/administrators",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"administrators"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Admin by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 2,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\": \"doe\",\r",
+											"            \"mail\": \"example@doe.com\",\r",
+											"            \"role\": \"Head Security\"\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/administrators/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"administrators",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\":2,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\":\"doe\",\r",
+											"            \"mail\":\"example@doe.com\",\r",
+											"            \"role\":\"Junior dev\"\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"John\",\r\n    \"username\":\"doe\",\r\n    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r\n    \"mail\":\"example@doe.com\",\r\n    \"role\":\"Junior dev\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/administrators/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"administrators",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\":2,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\":\"doe\",\r",
+											"            \"mail\":\"example@doe.com\",\r",
+											"            \"role\":\"Junior dev\"\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/administrators/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"administrators",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Clients",
+					"item": [
+						{
+							"name": "POST Client",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\":3,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\":\"doe\",\r",
+											"            \"mail\":\"example@doe.com\",\r",
+											"            \"company\":\"My Company\",\r",
+											"            \"activities\":[]\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"John\",\r\n    \"username\":\"doe\",\r\n    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r\n    \"mail\":\"example@doe.com\",\r\n    \"company\":\"My Company\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/clients",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"clients"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Client Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\":3,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\":\"doe\",\r",
+											"            \"mail\":\"example@doe.com\",\r",
+											"            \"company\":\"My Company\",\r",
+											"            \"activities\":[]\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"doe\",\r\n    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/clients/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"clients",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET all Clients",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        [{\r",
+											"            \"id\":3,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\":\"doe\",\r",
+											"            \"mail\":\"example@doe.com\",\r",
+											"            \"company\":\"My Company\",\r",
+											"        }]\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/clients",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"clients"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Client by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\":3,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\":\"doe\",\r",
+											"            \"mail\":\"example@doe.com\",\r",
+											"            \"company\":\"My Company\",\r",
+											"            \"activities\":[]\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/clients/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"clients",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Client",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\":3,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\":\"doe\",\r",
+											"            \"mail\":\"example@doe.com\",\r",
+											"            \"company\":\"Epan\",\r",
+											"            \"activities\":[]\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"John\",\r\n    \"username\":\"doe\",\r\n    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r\n    \"mail\":\"example@doe.com\",\r\n    \"company\":\"Epan\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/clients/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"clients",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Client",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\":3,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\":\"doe\",\r",
+											"            \"mail\":\"example@doe.com\",\r",
+											"            \"company\":\"Epan\",\r",
+											"            \"activities\":[]\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/clients/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"clients",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Activities",
+					"item": [
+						{
+							"name": "POST State",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\":2,\r",
+											"            \"name\": \"New State\",\r",
+											"            \"description\": \"New Random Description\",\r",
+											"            \"activities\":[]\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":28,\r\n    \"name\": \"New State\",\r\n    \"description\": \"New Random Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/states",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"states"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Categories",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\":2,\r",
+											"            \"name\": \"Analytics\",\r",
+											"            \"description\": \"New Random Description\",\r",
+											"            \"activities\":[]\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"Analytics\",\r\n    \"description\": \"New Random Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/categories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Client",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 4,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\": \"doe\",\r",
+											"            \"mail\": \"example@doe.com\",\r",
+											"            \"company\": \"My Company\",\r",
+											"            \"activities\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"John\",\r\n    \"username\":\"doe\",\r\n    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r\n    \"mail\":\"example@doe.com\",\r\n    \"company\":\"My Company\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/clients",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"clients"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Activity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 1,\r",
+											"            \"name\": \"My Activity\",\r",
+											"            \"startDate\": \"2022-10-10 10:00\",\r",
+											"            \"endDate\": \"2022-12-10 10:10\",\r",
+											"            \"missingHours\": 10.0,\r",
+											"            \"completedHours\": 0.0,\r",
+											"            \"description\": \"My Activity description\",\r",
+											"            \"assignee\": {\r",
+											"                \"id\": 4,\r",
+											"                \"name\": \"John\",\r",
+											"                \"username\": \"doe\",\r",
+											"                \"mail\": \"example@doe.com\",\r",
+											"                \"company\": \"My Company\"\r",
+											"            },\r",
+											"            \"category\": {\r",
+											"                \"id\": 2,\r",
+											"                \"name\": \"Analytics\",\r",
+											"                \"description\": \"New Random Description\"\r",
+											"            },\r",
+											"            \"state\": {\r",
+											"                \"id\": 2,\r",
+											"                \"name\": \"New State\",\r",
+											"                \"description\": \"New Random Description\"\r",
+											"            },\r",
+											"            \"timecards\": [],\r",
+											"            \"requests\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"My Activity\",\r\n    \"startDate\":\"2022-10-10 10:00\",\r\n    \"endDate\":\"2022-12-10 10:10\",\r\n    \"missingHours\":10.0,\r\n    \"completedHours\":0.0,\r\n    \"description\":\"My Activity description\",\r\n    \"assignee\":4,\r\n    \"category\":2,\r\n    \"state\":2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/activities",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"activities"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET all Activities",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Non empty response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        [\r",
+											"            {\r",
+											"                \"id\": 1,\r",
+											"                \"name\": \"My Activity\",\r",
+											"                \"startDate\": \"2022-10-10 10:00\",\r",
+											"                \"endDate\": \"2022-12-10 10:10\",\r",
+											"                \"missingHours\": 10.0,\r",
+											"                \"completedHours\": 0.0,\r",
+											"                \"description\": \"My Activity description\"\r",
+											"            }\r",
+											"        ]\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/activities",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"activities"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Activity by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Non empty response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 1,\r",
+											"            \"name\": \"My Activity\",\r",
+											"            \"startDate\": \"2022-10-10 10:00\",\r",
+											"            \"endDate\": \"2022-12-10 10:10\",\r",
+											"            \"missingHours\": 10.0,\r",
+											"            \"completedHours\": 0.0,\r",
+											"            \"description\": \"My Activity description\",\r",
+											"            \"assignee\": {\r",
+											"                \"id\": 4,\r",
+											"                \"name\": \"John\",\r",
+											"                \"username\": \"doe\",\r",
+											"                \"mail\": \"example@doe.com\",\r",
+											"                \"company\": \"My Company\"\r",
+											"            },\r",
+											"            \"category\": {\r",
+											"                \"id\": 2,\r",
+											"                \"name\": \"Analytics\",\r",
+											"                \"description\": \"New Random Description\"\r",
+											"            },\r",
+											"            \"state\": {\r",
+											"                \"id\": 2,\r",
+											"                \"name\": \"New State\",\r",
+											"                \"description\": \"New Random Description\"\r",
+											"            },\r",
+											"            \"timecards\": [],\r",
+											"            \"requests\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/activities/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"activities",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Activity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Non empty response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 1,\r",
+											"            \"name\": \"My New Activity\",\r",
+											"            \"startDate\": \"2022-10-10 10:00\",\r",
+											"            \"endDate\": \"2022-12-10 10:10\",\r",
+											"            \"missingHours\": 9.0,\r",
+											"            \"completedHours\": 1.0,\r",
+											"            \"description\": \"My New Activity description\",\r",
+											"            \"assignee\": {\r",
+											"                \"id\": 4,\r",
+											"                \"name\": \"John\",\r",
+											"                \"username\": \"doe\",\r",
+											"                \"mail\": \"example@doe.com\",\r",
+											"                \"company\": \"My Company\"\r",
+											"            },\r",
+											"            \"category\": {\r",
+											"                \"id\": 2,\r",
+											"                \"name\": \"Analytics\",\r",
+											"                \"description\": \"New Random Description\"\r",
+											"            },\r",
+											"            \"state\": {\r",
+											"                \"id\": 2,\r",
+											"                \"name\": \"New State\",\r",
+											"                \"description\": \"New Random Description\"\r",
+											"            },\r",
+											"            \"timecards\": [],\r",
+											"            \"requests\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"My New Activity\",\r\n    \"startDate\":\"2022-10-10 10:00\",\r\n    \"endDate\":\"2022-12-10 10:10\",\r\n    \"missingHours\":9.0,\r\n    \"completedHours\":1.0,\r\n    \"description\":\"My New Activity description\",\r\n    \"assignee\":4,\r\n    \"category\":2,\r\n    \"state\":2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/activities/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"activities",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Activity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Non empty response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 1,\r",
+											"            \"name\": \"My New Activity\",\r",
+											"            \"startDate\": \"2022-10-10 10:00\",\r",
+											"            \"endDate\": \"2022-12-10 10:10\",\r",
+											"            \"missingHours\": 9.0,\r",
+											"            \"completedHours\": 1.0,\r",
+											"            \"description\": \"My New Activity description\",\r",
+											"            \"assignee\": {\r",
+											"                \"id\": 4,\r",
+											"                \"name\": \"John\",\r",
+											"                \"username\": \"doe\",\r",
+											"                \"mail\": \"example@doe.com\",\r",
+											"                \"company\": \"My Company\"\r",
+											"            },\r",
+											"            \"category\": {\r",
+											"                \"id\": 2,\r",
+											"                \"name\": \"Analytics\",\r",
+											"                \"description\": \"New Random Description\"\r",
+											"            },\r",
+											"            \"state\": {\r",
+											"                \"id\": 2,\r",
+											"                \"name\": \"New State\",\r",
+											"                \"description\": \"New Random Description\"\r",
+											"            },\r",
+											"            \"timecards\": [],\r",
+											"            \"requests\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/activities/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"activities",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete State",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct Status\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 2,\r",
+											"            \"name\": \"New State\",\r",
+											"            \"description\": \"New Random Description\",\r",
+											"            \"activities\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/states/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
 										"api",
 										"states",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Category",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct Status\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 2,\r",
+											"            \"name\": \"Analytics\",\r",
+											"            \"description\": \"New Random Description\",\r",
+											"            \"activities\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/categories/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"categories",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Client",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct Status\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 4,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\": \"doe\",\r",
+											"            \"mail\": \"example@doe.com\",\r",
+											"            \"company\": \"My Company\",\r",
+											"            \"activities\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/clients/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"clients",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Requests",
+					"item": [
+						{
+							"name": "POST State",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\":3,\r",
+											"            \"name\": \"New State\",\r",
+											"            \"description\": \"New Random Description\",\r",
+											"            \"activities\":[]\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":28,\r\n    \"name\": \"New State\",\r\n    \"description\": \"New Random Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/states",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"states"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Categories",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\":3,\r",
+											"            \"name\": \"Analytics\",\r",
+											"            \"description\": \"New Random Description\",\r",
+											"            \"activities\":[]\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"Analytics\",\r\n    \"description\": \"New Random Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/categories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Client",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 5,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\": \"doe\",\r",
+											"            \"mail\": \"example@doe.com\",\r",
+											"            \"company\": \"My Company\",\r",
+											"            \"activities\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"John\",\r\n    \"username\":\"doe\",\r\n    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r\n    \"mail\":\"example@doe.com\",\r\n    \"company\":\"My Company\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/clients",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"clients"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Activity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 2,\r",
+											"            \"name\": \"My Activity\",\r",
+											"            \"startDate\": \"2022-10-10 10:00\",\r",
+											"            \"endDate\": \"2022-12-10 10:10\",\r",
+											"            \"missingHours\": 10.0,\r",
+											"            \"completedHours\": 0.0,\r",
+											"            \"description\": \"My Activity description\",\r",
+											"            \"assignee\": {\r",
+											"                \"id\": 5,\r",
+											"                \"name\": \"John\",\r",
+											"                \"username\": \"doe\",\r",
+											"                \"mail\": \"example@doe.com\",\r",
+											"                \"company\": \"My Company\"\r",
+											"            },\r",
+											"            \"category\": {\r",
+											"                \"id\": 3,\r",
+											"                \"name\": \"Analytics\",\r",
+											"                \"description\": \"New Random Description\"\r",
+											"            },\r",
+											"            \"state\": {\r",
+											"                \"id\": 3,\r",
+											"                \"name\": \"New State\",\r",
+											"                \"description\": \"New Random Description\"\r",
+											"            },\r",
+											"            \"timecards\": [],\r",
+											"            \"requests\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":2,\r\n    \"name\": \"My Activity\",\r\n    \"startDate\":\"2022-10-10 10:00\",\r\n    \"endDate\":\"2022-12-10 10:10\",\r\n    \"missingHours\":10.0,\r\n    \"completedHours\":0.0,\r\n    \"description\":\"My Activity description\",\r\n    \"assignee\":5,\r\n    \"category\":3,\r\n    \"state\":3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/activities",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"activities"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 1,\r",
+											"            \"client\": {\r",
+											"                \"id\": 5,\r",
+											"                \"name\": \"John\",\r",
+											"                \"username\": \"doe\",\r",
+											"                \"mail\": \"example@doe.com\",\r",
+											"                \"company\": \"My Company\"\r",
+											"            },\r",
+											"            \"activity\": {\r",
+											"                \"id\": 2,\r",
+											"                \"name\": \"My Activity\",\r",
+											"                \"startDate\": \"2022-10-10 10:00\",\r",
+											"                \"endDate\": \"2022-12-10 10:10\",\r",
+											"                \"missingHours\": 10.0,\r",
+											"                \"completedHours\": 0.0,\r",
+											"                \"description\": \"My Activity description\"\r",
+											"            },\r",
+											"            \"type\": \"Create\"\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"client\":5,\r\n    \"activity\":2,\r\n    \"type\":\"Create\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/requests",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"requests"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET all Requests",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Non empty response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        [\r",
+											"            {\r",
+											"                \"id\": 1,\r",
+											"                \"type\": \"Create\"\r",
+											"            }\r",
+											"        ]\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/requests",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"requests"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Request by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 1,\r",
+											"            \"client\": {\r",
+											"                \"id\": 5,\r",
+											"                \"name\": \"John\",\r",
+											"                \"username\": \"doe\",\r",
+											"                \"mail\": \"example@doe.com\",\r",
+											"                \"company\": \"My Company\"\r",
+											"            },\r",
+											"            \"activity\": {\r",
+											"                \"id\": 2,\r",
+											"                \"name\": \"My Activity\",\r",
+											"                \"startDate\": \"2022-10-10 10:00\",\r",
+											"                \"endDate\": \"2022-12-10 10:10\",\r",
+											"                \"missingHours\": 10.0,\r",
+											"                \"completedHours\": 0.0,\r",
+											"                \"description\": \"My Activity description\"\r",
+											"            },\r",
+											"            \"type\": \"Create\"\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/requests/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"requests",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(202);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 1,\r",
+											"            \"client\": {\r",
+											"                \"id\": 5,\r",
+											"                \"name\": \"John\",\r",
+											"                \"username\": \"doe\",\r",
+											"                \"mail\": \"example@doe.com\",\r",
+											"                \"company\": \"My Company\"\r",
+											"            },\r",
+											"            \"activity\": {\r",
+											"                \"id\": 2,\r",
+											"                \"name\": \"My Activity\",\r",
+											"                \"startDate\": \"2022-10-10 10:00\",\r",
+											"                \"endDate\": \"2022-12-10 10:10\",\r",
+											"                \"missingHours\": 10.0,\r",
+											"                \"completedHours\": 0.0,\r",
+											"                \"description\": \"My Activity description\"\r",
+											"            },\r",
+											"            \"type\": \"Kill\"\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"client\":5,\r\n    \"activity\":2,\r\n    \"type\":\"Kill\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/requests/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"requests",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 1,\r",
+											"            \"client\": {\r",
+											"                \"id\": 5,\r",
+											"                \"name\": \"John\",\r",
+											"                \"username\": \"doe\",\r",
+											"                \"mail\": \"example@doe.com\",\r",
+											"                \"company\": \"My Company\"\r",
+											"            },\r",
+											"            \"activity\": {\r",
+											"                \"id\": 2,\r",
+											"                \"name\": \"My Activity\",\r",
+											"                \"startDate\": \"2022-10-10 10:00\",\r",
+											"                \"endDate\": \"2022-12-10 10:10\",\r",
+											"                \"missingHours\": 10.0,\r",
+											"                \"completedHours\": 0.0,\r",
+											"                \"description\": \"My Activity description\"\r",
+											"            },\r",
+											"            \"type\": \"Kill\"\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/requests/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"requests",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Activity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Non empty response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 2,\r",
+											"            \"name\": \"My Activity\",\r",
+											"            \"startDate\": \"2022-10-10 10:00\",\r",
+											"            \"endDate\": \"2022-12-10 10:10\",\r",
+											"            \"missingHours\": 10.0,\r",
+											"            \"completedHours\": 0.0,\r",
+											"            \"description\": \"My Activity description\",\r",
+											"            \"assignee\": {\r",
+											"                \"id\": 5,\r",
+											"                \"name\": \"John\",\r",
+											"                \"username\": \"doe\",\r",
+											"                \"mail\": \"example@doe.com\",\r",
+											"                \"company\": \"My Company\"\r",
+											"            },\r",
+											"            \"category\": {\r",
+											"                \"id\": 3,\r",
+											"                \"name\": \"Analytics\",\r",
+											"                \"description\": \"New Random Description\"\r",
+											"            },\r",
+											"            \"state\": {\r",
+											"                \"id\": 3,\r",
+											"                \"name\": \"New State\",\r",
+											"                \"description\": \"New Random Description\"\r",
+											"            },\r",
+											"            \"timecards\": [],\r",
+											"            \"requests\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/activities/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"activities",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete State",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct Status\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 3,\r",
+											"            \"name\": \"New State\",\r",
+											"            \"description\": \"New Random Description\",\r",
+											"            \"activities\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/states/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"states",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Category",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct Status\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 3,\r",
+											"            \"name\": \"Analytics\",\r",
+											"            \"description\": \"New Random Description\",\r",
+											"            \"activities\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/categories/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"categories",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Client",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct Status\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 5,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\": \"doe\",\r",
+											"            \"mail\": \"example@doe.com\",\r",
+											"            \"company\": \"My Company\",\r",
+											"            \"activities\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/clients/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"clients",
+										"5"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Timecard",
+					"item": [
+						{
+							"name": "POST State",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 4,\r",
+											"            \"name\": \"New State\",\r",
+											"            \"description\": \"New Random Description\",\r",
+											"            \"activities\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":28,\r\n    \"name\": \"New State\",\r\n    \"description\": \"New Random Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/states",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"states"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Categories",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 4,\r",
+											"            \"name\": \"Analytics\",\r",
+											"            \"description\": \"New Random Description\",\r",
+											"            \"activities\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"Analytics\",\r\n    \"description\": \"New Random Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/categories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Client",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 6,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\": \"doe\",\r",
+											"            \"mail\": \"example@doe.com\",\r",
+											"            \"company\": \"My Company\",\r",
+											"            \"activities\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"John\",\r\n    \"username\":\"doe\",\r\n    \"password\":\"27709bfe7f71b832343bbbdd6244311a2332c2b4481e8be54643dba502dadc7b\",\r\n    \"mail\":\"example@doe.com\",\r\n    \"company\":\"My Company\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/clients",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"clients"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Activity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 3,\r",
+											"            \"name\": \"My Activity\",\r",
+											"            \"startDate\": \"2022-10-10 10:00\",\r",
+											"            \"endDate\": \"2022-12-10 10:10\",\r",
+											"            \"missingHours\": 10.0,\r",
+											"            \"completedHours\": 0.0,\r",
+											"            \"description\": \"My Activity description\",\r",
+											"            \"assignee\": {\r",
+											"                \"id\": 6,\r",
+											"                \"name\": \"John\",\r",
+											"                \"username\": \"doe\",\r",
+											"                \"mail\": \"example@doe.com\",\r",
+											"                \"company\": \"My Company\"\r",
+											"            },\r",
+											"            \"category\": {\r",
+											"                \"id\": 4,\r",
+											"                \"name\": \"Analytics\",\r",
+											"                \"description\": \"New Random Description\"\r",
+											"            },\r",
+											"            \"state\": {\r",
+											"                \"id\": 4,\r",
+											"                \"name\": \"New State\",\r",
+											"                \"description\": \"New Random Description\"\r",
+											"            },\r",
+											"            \"timecards\": [],\r",
+											"            \"requests\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\": \"My Activity\",\r\n    \"startDate\":\"2022-10-10 10:00\",\r\n    \"endDate\":\"2022-12-10 10:10\",\r\n    \"missingHours\":10.0,\r\n    \"completedHours\":0.0,\r\n    \"description\":\"My Activity description\",\r\n    \"assignee\":6,\r\n    \"category\":4,\r\n    \"state\":4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/activities",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"activities"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Timecard",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 1,\r",
+											"            \"client\": {\r",
+											"                \"id\": 6,\r",
+											"                \"name\": \"John\",\r",
+											"                \"username\": \"doe\",\r",
+											"                \"mail\": \"example@doe.com\",\r",
+											"                \"company\": \"My Company\"\r",
+											"            },\r",
+											"            \"activity\": {\r",
+											"                \"id\": 3,\r",
+											"                \"name\": \"My Activity\",\r",
+											"                \"startDate\": \"2022-10-10 10:00\",\r",
+											"                \"endDate\": \"2022-12-10 10:10\",\r",
+											"                \"missingHours\": 9.0,\r",
+											"                \"completedHours\": 1.0,\r",
+											"                \"description\": \"My Activity description\"\r",
+											"            },\r",
+											"            \"title\": \"Example\",\r",
+											"            \"comment\": \"My comment\",\r",
+											"            \"hours\": 1.0,\r",
+											"            \"timestamp\": \"2022-12-10 10:10\"\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"client\":6,\r\n    \"activity\":3,\r\n    \"title\":\"Example\",\r\n    \"comment\":\"My comment\",\r\n    \"hours\": 1.0,\r\n    \"timestamp\":\"2022-12-10 10:10\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/timecards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"timecards"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET all Timecard",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        [\r",
+											"            {\r",
+											"                \"id\": 1,\r",
+											"                \"title\": \"Example\",\r",
+											"                \"comment\": \"My comment\",\r",
+											"                \"hours\": 1.0,\r",
+											"                \"timestamp\": \"2022-12-10 10:10\"\r",
+											"            }\r",
+											"        ]\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/timecards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"timecards"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Request by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 1,\r",
+											"            \"client\": {\r",
+											"                \"id\": 6,\r",
+											"                \"name\": \"John\",\r",
+											"                \"username\": \"doe\",\r",
+											"                \"mail\": \"example@doe.com\",\r",
+											"                \"company\": \"My Company\"\r",
+											"            },\r",
+											"            \"activity\": {\r",
+											"                \"id\": 3,\r",
+											"                \"name\": \"My Activity\",\r",
+											"                \"startDate\": \"2022-10-10 10:00\",\r",
+											"                \"endDate\": \"2022-12-10 10:10\",\r",
+											"                \"missingHours\": 9.0,\r",
+											"                \"completedHours\": 1.0,\r",
+											"                \"description\": \"My Activity description\"\r",
+											"            },\r",
+											"            \"title\": \"Example\",\r",
+											"            \"comment\": \"My comment\",\r",
+											"            \"hours\": 1.0,\r",
+											"            \"timestamp\": \"2022-12-10 10:10\"\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/timecards/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"timecards",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(202);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 1,\r",
+											"            \"client\": {\r",
+											"                \"id\": 6,\r",
+											"                \"name\": \"John\",\r",
+											"                \"username\": \"doe\",\r",
+											"                \"mail\": \"example@doe.com\",\r",
+											"                \"company\": \"My Company\"\r",
+											"            },\r",
+											"            \"activity\": {\r",
+											"                \"id\": 3,\r",
+											"                \"name\": \"My Activity\",\r",
+											"                \"startDate\": \"2022-10-10 10:00\",\r",
+											"                \"endDate\": \"2022-12-10 10:10\",\r",
+											"                \"missingHours\": 7.0,\r",
+											"                \"completedHours\": 3.0,\r",
+											"                \"description\": \"My Activity description\"\r",
+											"            },\r",
+											"            \"title\": \"Example 2.0\",\r",
+											"            \"comment\": \"My new comment\",\r",
+											"            \"hours\": 3.0,\r",
+											"            \"timestamp\": \"2022-12-10 10:10\"\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"client\":6,\r\n    \"activity\":3,\r\n    \"title\":\"Example 2.0\",\r\n    \"comment\":\"My new comment\",\r\n    \"hours\": 3.0,\r\n    \"timestamp\":\"2022-12-10 10:10\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/timecards/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"timecards",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Timecard",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 1,\r",
+											"            \"client\": {\r",
+											"                \"id\": 6,\r",
+											"                \"name\": \"John\",\r",
+											"                \"username\": \"doe\",\r",
+											"                \"mail\": \"example@doe.com\",\r",
+											"                \"company\": \"My Company\"\r",
+											"            },\r",
+											"            \"activity\": {\r",
+											"                \"id\": 3,\r",
+											"                \"name\": \"My Activity\",\r",
+											"                \"startDate\": \"2022-10-10 10:00\",\r",
+											"                \"endDate\": \"2022-12-10 10:10\",\r",
+											"                \"missingHours\": 7.0,\r",
+											"                \"completedHours\": 3.0,\r",
+											"                \"description\": \"My Activity description\"\r",
+											"            },\r",
+											"            \"title\": \"Example 2.0\",\r",
+											"            \"comment\": \"My new comment\",\r",
+											"            \"hours\": 3.0,\r",
+											"            \"timestamp\": \"2022-12-10 10:10\"\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/timecards/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"timecards",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Activity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct status response\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Non empty response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 3,\r",
+											"            \"name\": \"My Activity\",\r",
+											"            \"startDate\": \"2022-10-10 10:00\",\r",
+											"            \"endDate\": \"2022-12-10 10:10\",\r",
+											"            \"missingHours\": 7.0,\r",
+											"            \"completedHours\": 3.0,\r",
+											"            \"description\": \"My Activity description\",\r",
+											"            \"assignee\": {\r",
+											"                \"id\": 6,\r",
+											"                \"name\": \"John\",\r",
+											"                \"username\": \"doe\",\r",
+											"                \"mail\": \"example@doe.com\",\r",
+											"                \"company\": \"My Company\"\r",
+											"            },\r",
+											"            \"category\": {\r",
+											"                \"id\": 4,\r",
+											"                \"name\": \"Analytics\",\r",
+											"                \"description\": \"New Random Description\"\r",
+											"            },\r",
+											"            \"state\": {\r",
+											"                \"id\": 4,\r",
+											"                \"name\": \"New State\",\r",
+											"                \"description\": \"New Random Description\"\r",
+											"            },\r",
+											"            \"timecards\": [],\r",
+											"            \"requests\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/activities/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"activities",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Category",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct Status\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 4,\r",
+											"            \"name\": \"Analytics\",\r",
+											"            \"description\": \"New Random Description\",\r",
+											"            \"activities\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/categories/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"categories",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete State Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct Status\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 4,\r",
+											"            \"name\": \"New State\",\r",
+											"            \"description\": \"New Random Description\",\r",
+											"            \"activities\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/states/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"states",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Client Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Correct Status\",()=>{\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Correct response\",()=>{\r",
+											"    pm.expect(pm.response.json()).to.eql(\r",
+											"        {\r",
+											"            \"id\": 6,\r",
+											"            \"name\": \"John\",\r",
+											"            \"username\": \"doe\",\r",
+											"            \"mail\": \"example@doe.com\",\r",
+											"            \"company\": \"My Company\",\r",
+											"            \"activities\": []\r",
+											"        }\r",
+											"    );\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/clients/6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"clients",
+										"6"
 									]
 								}
 							},
@@ -700,6 +3419,38 @@
 				}
 			],
 			"description": "# Basic CRUD\nthe basic crud operations to test the correct functionality of the api"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "localhost",
+			"type": "default"
+		},
+		{
+			"key": "port",
+			"value": "8081",
+			"type": "default"
 		}
 	]
 }

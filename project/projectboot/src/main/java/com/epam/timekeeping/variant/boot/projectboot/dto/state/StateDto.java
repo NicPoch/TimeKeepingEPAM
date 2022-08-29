@@ -1,0 +1,40 @@
+package com.epam.timekeeping.variant.boot.projectboot.dto.state;
+
+import lombok.*;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class StateDto implements Serializable {
+    private Integer id;
+    private String name;
+    private String description;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StateDto entity = (StateDto) o;
+        return Objects.equals(this.id, entity.id) &&
+                Objects.equals(this.name, entity.name) &&
+                Objects.equals(this.description, entity.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description);
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "id = " + id + ", " +
+                "name = " + name + ", " +
+                "description = " + description + ")";
+    }
+}

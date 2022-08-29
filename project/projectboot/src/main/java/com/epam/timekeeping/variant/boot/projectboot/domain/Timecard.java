@@ -8,7 +8,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 
-@Data
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,24 +15,38 @@ import java.util.Date;
 @Table(name="Timecards")
 public class Timecard {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false,nullable = false)
     private  Integer id;
 
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "activity_id", nullable = false)
     private Activity activity;
 
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String comment;
 
     @Column(nullable = false)
-    private float hours;
+    private Float hours;
 
     @Column(nullable = false)
     private Date timestamp;
+
+    @Override
+    public String toString() {
+        return "Timecard{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", comment='" + comment + '\'' +
+                ", hours=" + hours +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }

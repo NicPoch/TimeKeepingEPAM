@@ -1,8 +1,15 @@
 package com.epam.timekeeping.variant.boot.projectboot.controller;
 
 import com.epam.timekeeping.variant.boot.projectboot.domain.Administrator;
+import com.epam.timekeeping.variant.boot.projectboot.dto.administrator.AdministratorDto;
+import com.epam.timekeeping.variant.boot.projectboot.dto.administrator.AdministratorPostDto;
+import com.epam.timekeeping.variant.boot.projectboot.dto.user.UserLogin;
 import com.epam.timekeeping.variant.boot.projectboot.service.AdministratorService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,33 +18,37 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/administrators")
 public class AdministratorController {
-
+    Logger logger = LoggerFactory.getLogger(AdministratorController.class);
     @Autowired
     private AdministratorService administratorService;
 
     @GetMapping
-    public List<Administrator> getAdministrators(){
+    public List<AdministratorDto> getAdministrators(){
         return administratorService.getAdministrators();
     }
     @GetMapping(value = "/{id}")
-    public Administrator getAdministrators(@PathVariable int id){
-        return administratorService.getAdministratorById(id);
+    public ResponseEntity<Object> getAdministrators(@PathVariable int id){
+        logger.info("Get request with id: "+id);
+        return new ResponseEntity<>(administratorService.getAdministratorById(id), HttpStatus.OK);
     }
     @PostMapping
-    public Administrator getAdministrators(@RequestBody Administrator administrator){
-        administratorService.saveOrUpdateAdministrator(administrator);
-        return administrator;
+    public ResponseEntity<Object> postAdministrators(@RequestBody AdministratorPostDto administrator){
+        logger.info("Post request with body: "+administrator.toString());
+        return new ResponseEntity<>(administratorService.createAdministrator(administrator), HttpStatus.CREATED);
+    }
+    @PostMapping("/login")
+    public ResponseEntity<Object> loginAdministrators(@RequestBody UserLogin administrator){
+        logger.info("Administrator Login");
+        return new ResponseEntity<>(administratorService.login(administrator), HttpStatus.CREATED);
     }
     @PutMapping(value = "/{id}")
-    public Administrator updateAdministrator(@PathVariable int id,@RequestBody Administrator newAdministrator){
-        Administrator administrator =this.administratorService.getAdministratorById(id);
-        if(administrator!=null) administratorService.saveOrUpdateAdministrator(newAdministrator);
-        return newAdministrator;
+    public ResponseEntity<Object> updateAdministrator(@PathVariable int id,@RequestBody AdministratorPostDto administrator){
+        logger.info("Put request with id "+id+" and body: "+administrator.toString());
+        return new ResponseEntity<>(administratorService.updateAdministrator(administrator,id), HttpStatus.OK);
     }
     @DeleteMapping(value = "/{id}")
-    public Administrator deleteAdministrator(@PathVariable int id){
-        Administrator administrator =this.administratorService.getAdministratorById(id);
-        if(administrator!=null) administratorService.deleteAdministrator(id);
-        return administrator;
+    public ResponseEntity<Object> deleteAdministrator(@PathVariable int id){
+        logger.info("Delete request with id "+id);
+        return new ResponseEntity<>(administratorService.deleteAdministrator(id), HttpStatus.OK);
     }
 }

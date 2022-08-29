@@ -1,12 +1,15 @@
 package com.epam.timekeeping.variant.boot.projectboot.controller;
 
 import com.epam.timekeeping.variant.boot.projectboot.domain.User;
-import com.epam.timekeeping.variant.boot.projectboot.dto.User.UserDto;
-import com.epam.timekeeping.variant.boot.projectboot.dto.User.UserPostDto;
+import com.epam.timekeeping.variant.boot.projectboot.dto.user.UserGet;
+import com.epam.timekeeping.variant.boot.projectboot.dto.user.UserPost;
 import com.epam.timekeeping.variant.boot.projectboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,60 +21,24 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    private UserDto userEntityToDTO(User user){
-        UserDto dto = new UserDto();
-        dto.setId(user.getId());
-        dto.setName(user.getName());
-        dto.setUsername(user.getUsername());
-        dto.setMail(user.getMail());
-        return dto;
-    }
-
-    private User userPostDtoToEntity(UserPostDto dto){
-        User user = new User();
-        user.setId(dto.getId());
-        user.setMail(dto.getMail());
-        user.setName(dto.getName());
-        user.setUsername(dto.getUsername());
-        user.setPassword(dto.getPassword());
-        return user;
-    }
-
     @GetMapping
-    public List<UserDto> getUsers(){
-        return userService.getUsers().stream().map(this::userEntityToDTO).collect(Collectors.toList());
+    public ResponseEntity<List<UserGet>> getUsers(){
+        return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
     @GetMapping(value = "/{id}")
-    public UserDto getUsers(@PathVariable int id){
-        //TODO exception handling for 404
-        return this.userEntityToDTO(userService.getUserById(id));
+    public ResponseEntity<Object> getUsers(@PathVariable int id){
+        return new ResponseEntity<>(userService.getUserById(id),HttpStatus.OK);
     }
     @PostMapping
-    public UserDto postUsers(@RequestBody UserPostDto dto){
-        //TODO Exception handling for 400
-        User user = userPostDtoToEntity(dto);
-        userService.saveOrUpdateUser(user);
-        return this.userEntityToDTO(user);
+    public ResponseEntity<Object> postUsers(@RequestBody UserPost dto){
+        return new ResponseEntity<>(userService.createUser(dto),HttpStatus.ACCEPTED);
     }
     @PutMapping(value = "/{id}")
-    public UserDto updateUser(@PathVariable int id,@RequestBody UserPostDto dto){
-        User user =this.userService.getUserById(id);
-        if(user!=null) {
-            User newUser = userPostDtoToEntity(dto);
-            userService.saveOrUpdateUser(newUser);
-            return userEntityToDTO(newUser);
-        }
-        //TODO exception handling for 404 or 402
-        return null;
+    public ResponseEntity<Object> updateUser(@PathVariable int id, @RequestBody UserPost dto){
+        return new ResponseEntity<>(userService.updateUser(dto,id),HttpStatus.ACCEPTED);
     }
     @DeleteMapping(value = "/{id}")
-    public UserDto deleteUser(@PathVariable int id){
-        User user =this.userService.getUserById(id);
-        if(user!=null) {
-            userService.deleteUser(id);
-            return userEntityToDTO(user);
-        }
-        //TODO Exception handling for 404 and 403
-        return null;
+    public ResponseEntity<Object> deleteUser(@PathVariable int id){
+        return new ResponseEntity<>(userService.deleteUser(id),HttpStatus.OK);
     }
 }
