@@ -14,6 +14,8 @@ import com.epam.timekeeping.variant.boot.projectboot.repository.ActivityReposito
 import com.epam.timekeeping.variant.boot.projectboot.repository.ClientRepository;
 import com.epam.timekeeping.variant.boot.projectboot.repository.TimecardRepository;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ import java.util.List;
 
 @Service
 public class TimecardService {
+
+    Logger logger = LoggerFactory.getLogger(TimecardService.class);
     @Autowired
     ModelMapper mapper;
 
@@ -35,6 +39,7 @@ public class TimecardService {
     ClientRepository clientRepository;
 
     public TimecardDetailDto getTimecardById(Integer id) throws TimecardNotFound {
+        logger.info("Get timecard with id: "+id);
         return mapper.map(timecardRepository.findById(id).orElseThrow(()->new TimecardNotFound(id)),TimecardDetailDto.class);
     }
     public List<TimecardDto> getTimecards(){
