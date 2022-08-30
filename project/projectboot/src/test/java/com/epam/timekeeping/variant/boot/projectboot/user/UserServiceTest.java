@@ -123,10 +123,9 @@ public class UserServiceTest {
         }
     }
     @Test
-    public void testCreateInvalidUserNullName(){
-        Mockito.when(userRepository.save(Mockito.any())).thenReturn(user);
+    public void testCreateInvalidUserEmptyUserName(){
         try {
-            UserGet temp= userService.createUser(new UserPost(1,null,"username2","masomdoamsodnoandoonsndo","e@e.com"));
+            UserGet temp= userService.createUser(new UserPost(1,"name","","masomdoamsodnoandoonsndo","e@e.com"));
             fail();
         }
         catch (UserIncorrectFormat exception){
@@ -137,4 +136,78 @@ public class UserServiceTest {
             fail("Exception generated");
         }
     }
+    @Test
+    public void testCreateInvalidUserNullUserName(){
+        try {
+            UserGet temp= userService.createUser(new UserPost(1,"name",null,"masomdoamsodnoandoonsndo","e@e.com"));
+            fail();
+        }
+        catch (UserIncorrectFormat exception){
+            assertTrue(true);
+        }
+        catch (Exception exception){
+            System.out.println(exception.getMessage());
+            fail("Exception generated");
+        }
+    }
+    @Test
+    public void testCreateInvalidUserRepeatedUserName(){
+        Mockito.when(userRepository.existsByUsernameIgnoreCase(Mockito.any())).thenReturn(true);
+        try {
+            UserGet temp= userService.createUser(new UserPost(1,"name","example","masomdoamsodnoandoonsndo","e@e.com"));
+            fail();
+        }
+        catch (UserIncorrectFormat exception){
+            assertTrue(true);
+        }
+        catch (Exception exception){
+            System.out.println(exception.getMessage());
+            fail("Exception generated");
+        }
+    }
+    @Test
+    public void testCreateInvalidUserEmptyMail(){
+        try {
+            UserGet temp= userService.createUser(new UserPost(1,"name","myuser","masomdoamsodnoandoonsndo",""));
+            fail();
+        }
+        catch (UserIncorrectFormat exception){
+            assertTrue(true);
+        }
+        catch (Exception exception){
+            System.out.println(exception.getMessage());
+            fail("Exception generated");
+        }
+    }
+    @Test
+    public void testCreateInvalidUserNullMail(){
+        try {
+            UserGet temp= userService.createUser(new UserPost(1,"name","myuser","masomdoamsodnoandoonsndo",null));
+            fail();
+        }
+        catch (UserIncorrectFormat exception){
+            assertTrue(true);
+        }
+        catch (Exception exception){
+            System.out.println(exception.getMessage());
+            fail("Exception generated");
+        }
+    }
+    @Test
+    public void testCreateInvalidUserRepeatedMail(){
+        Mockito.when(userRepository.existsByMailIgnoreCase(Mockito.any())).thenReturn(true);
+        try {
+            UserGet temp= userService.createUser(new UserPost(1,"name","sads","masomdoamsodnoandoonsndo","e@e.com"));
+            fail();
+        }
+        catch (UserIncorrectFormat exception){
+            assertTrue(true);
+        }
+        catch (Exception exception){
+            System.out.println(exception.getMessage());
+            fail("Exception generated");
+        }
+    }
+
+
 }
