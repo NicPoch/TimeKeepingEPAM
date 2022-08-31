@@ -32,12 +32,14 @@ public class StateService {
         return  mapper.map(stateRepository.findById(id).orElseThrow(()->new StateNotFound(id)),StateDetail.class);
     }
     public List<StateDto> getStates(){
+        logger.info("Getting all states");
         List<StateDto> states = new ArrayList<>();
         stateRepository.findAll().forEach(s->states.add(mapper.map(s,StateDto.class)));
         return states;
     }
 
     public StateDetail createState(StateDto dto)throws StateIncorrectFormat {
+        logger.info("Createing a state: "+dto.toString());
         List<String> errors = new ArrayList<>();
         if(dto.getName()==null || dto.getName().trim().length()==0) errors.add("Empty name");
 
@@ -45,8 +47,10 @@ public class StateService {
         return mapper.map(stateRepository.save(mapper.map(dto,State.class)),StateDetail.class);
     }
 
-    public StateDetail updateState(StateDto dto,Integer id)throws StateNotFound{
+    public StateDetail updateState(StateDto dto,Integer id)throws StateNotFound,StateIncorrectFormat{
+        logger.info("Updating a state: "+dto.toString());
         State state = stateRepository.findById(id).orElseThrow(()->new StateNotFound(id));
+        if(dto.getName()!=null && dto.getName().trim().length()==0) throw new StateIncorrectFormat(new ArrayList<>(){{add("Wrong name format");}});
         state.setName((dto.getName()==null)?state.getName():dto.getName());
         state.setDescription((dto.getDescription()==null)?state.getDescription():dto.getDescription());
 
@@ -54,6 +58,7 @@ public class StateService {
     }
 
     public StateDetail deleteState(Integer id)throws StateNotFound{
+        logger.info("Deleting state with id: "+id);
         State state = stateRepository.findById(id).orElseThrow(()->new StateNotFound(id));
         stateRepository.deleteById(id);
         return mapper.map(state,StateDetail.class);

@@ -56,6 +56,16 @@ public class UserService {
     public UserGet updateUser(UserPost user,Integer id)throws UserNotFound{
         logger.info("Updating user: "+user.toString());
         User entity = userRepository.findById(id).orElseThrow(()->new UserNotFound(id));
+        List<String> errors= new ArrayList<>();
+        if(user.getMail()!=null && (user.getMail().trim().length()==0)) errors.add("Incorrect mail");
+        if(user.getMail()!=null && (userRepository.existsByMailIgnoreCase(user.getMail()))) errors.add("Mail already exists");
+        if(user.getName()!=null && (user.getName().trim().length()==0)) errors.add("Wrong name format");
+        if(user.getUsername()!=null && (user.getUsername().trim().length()==0)) errors.add("Wrong username format");
+        if(user.getUsername()!=null && (userRepository.existsByUsernameIgnoreCase(user.getUsername()))) errors.add("Wrong username already exists");
+        if(user.getPassword()!=null && (user.getPassword().length()<8)) errors.add("Wrong password format");
+
+        if(errors.size()>0) throw new UserIncorrectFormat(errors);
+
         entity.setMail((user.getMail()==null)?entity.getMail():user.getMail());
         entity.setName((user.getName()==null)?entity.getName():user.getName());
         entity.setUsername((user.getUsername()==null)?entity.getUsername():user.getUsername());
